@@ -19,11 +19,11 @@
         <div id="cloud_form">
             <form id="cloud_form_content">
                 <div class="form_prompt">twitter.com/</div>
-                <input class="form_input" type="text">
+                <input id="cloud_name" class="form_input" type="text">
                 <div class="form_prompt2">Number of tweets to process: </div>
-                <input class="form_input2" type="number" min=1 max=10>
+                <input id="cloud_number" class="form_input2" type="number" min=1 max=10>
             </form>
-            <button class="form_submit" onClick="submit_cloud">Submit</button>
+            <button class="form_submit" onClick="submit_cloud()">Submit</button>
         </div>
     </div>
 
@@ -32,13 +32,13 @@
         <div id="map_form">
             <form id="map_form_content">
                 <div class="form_prompt">twitter.com/</div>
-                <input class="form_input" type="text">
+                <input id="map_name" class="form_input" type="text">
                 <div class="form_prompt">Number of tweets to process: </div>
-                <input class="form_input" type="number" min=1 max=200>
+                <input id="map_number" class="form_input" type="number" min=1 max=200>
                 <div class="form_prompt2">Depth of search: </div>
-                <input class="form_input2" type="number" min=1 max=10>
+                <input id="map_depth" class="form_input2" type="number" min=1 max=4>
             </form>
-            <button class="form_submit" onClick="submit_map">Submit</button>
+            <button class="form_submit" onClick="submit_map()">Submit</button>
         </div>
     </div>
 </body>

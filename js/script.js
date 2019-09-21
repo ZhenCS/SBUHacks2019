@@ -27,10 +27,53 @@ function mapClick(){
 }
 
 function submit_cloud(){
-    let xhttp = new XMLHttpRequest();
+    // GETTING FORM DATA
+    twitterName = document.getElementById("cloud_name").value;
+    numberToProcess = document.getElementById("cloud_number").value;
     
+    // CREATING URL
+    url = "35.231.85.14:5000/" + twitterName + "/" + numberToProcess;
+    console.log(url);
+
+    // SENDING THE DATA TO SERVER
+    windowSettings = "height=400,width=400,top=0,left=0,scrollbars=yes,resizable";
+    // window.open("/images/at_sign_PNG68.png", "image", windowSettings);
+    // let xhttp = new XMLHttpRequest();
+    // xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //       console.log("response_get");
+    //     }
+    // };
+    // xhttp.open("GET", url);
+    // xhttp.send();
+
+    // RETRIEVE DATA AS JSON
+
+    // SEND JSON TO PYTHON SCRIPT
+
+    // PYTHON SHOULD MAKE POPUP WINDOW
 }
 
 function submit_map(){
+    // GETTING FORM DATA
+    twitterName = document.getElementById("map_name").value;
+    numberToProcess = document.getElementById("map_number").value;
+    depth = document.getElementById("map_depth").value;
+    
+    // CREATING URL
+    url = "35.231.85.14:5000/" + twitterName + "/" + numberToProcess + "/" + depth;
+    console.log(url);
 
+    // SENDING THE DATA TO SERVER
+    windowSettings = "height=400,width=400,top=0,left=0,scrollbars=yes,resizable";
+    // window.open("/images/at_sign_PNG68.png", "image", windowSettings);
+    // let xhttp = new XMLHttpRequest();
+    // xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //       console.log("response_get");
+    //     }
+    // };
+    // xhttp.open("GET", url);
+    // xhttp.send();
+    window.open("www.facebook.com", "image", windowSettings);
 }
