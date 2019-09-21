@@ -1,15 +1,15 @@
 import twint
 import json
 
-
 class TwitterUser:
-    def __init__(self, name: str, mentions: list):
+    def __init__(self, name: str, mentions: list, depth: int):
         self.name = name
         self.mentions = mentions
-
+        self.depth = depth
     def to_json(self):
-        return json.dumps({"name": self.name,
-                           "mentions": self.mentions})
+        return {"name": self.name,
+                "mentions": self.mentions,
+                "depth": self.depth}
 
 
 def scrape_twitter(user: str, tweet_count: int):
@@ -35,24 +35,26 @@ def parse_mentions(user: str, tweet_count: int):
                     mentions += mention+" "
     return mentions.strip()
 
-
 def mention_cloud(user: str, tweet_count: int):
-    return TwitterUser(user, parse_mentions(user, tweet_count).split(" ")).to_json()
+        return json.dumps(TwitterUser(user, parse_mentions(user, tweet_count).split(" "), 0).to_json())
 
 
 def mention_network(user: str, tweet_count: int, depth: int):
-    output = mention_network_helper(user, tweet_count, depth, {})
-    output['length'] = len(output)
-    return output
+        output = mention_network_helper(user.upper(), tweet_count, depth, {}, []);
+        output['length'] = len(output)
+        return output
 
+def mention_network_helper(user: str, tweet_count: int, depth: int, output, uniqueNames):
+        if depth == 0:
+                return None
+        arr = list(dict.fromkeys(parse_mentions(user, tweet_count).upper().split(" ")))[:5]
+        setArr = set(arr)
+        arr = [a for a in setArr if a not in uniqueNames]
+        curr_user = TwitterUser(user, arr, depth)
 
-def mention_network_helper(user: str, tweet_count: int, depth: int, output):
-    if depth == 0:
-        return None
-    arr = list(dict.fromkeys(parse_mentions(user, tweet_count).split(" ")))[:5]
-    curr_user = TwitterUser(user, arr)
-    output[str(len(output))] = {"name": curr_user.name, "mentions" : curr_user.mentions}
-    for mentions in arr:
-        mention_network_helper(mentions, tweet_count, depth-1, output)
-    return output
+        output[str(len(output))] = curr_user.to_json()
+        uniqueNames.append(curr_user.name)
+        for mentions in arr:
+                mention_network_helper(mentions, tweet_count, depth-1, output, uniqueNames)
+        return output
 
