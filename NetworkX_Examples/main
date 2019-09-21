@@ -1,0 +1,117 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+import json
+from wordcloud import WordCloud, STOPWORDS
+import tkinter
+import numpy as np
+
+"""
+def close():
+    root.quit()
+    root.destroy()
+"""
+
+
+def word_cloud_main(ex: str):
+    stopwords = set(STOPWORDS)
+    test = json.loads(ex)
+    string = ""
+    for mention in test["mentions"]:
+        string = string + mention + " "
+
+    wc = WordCloud(width=600, height=600, background_color="white", stopwords=stopwords)
+    wc.generate(string)
+    plt.figure(figsize=(8, 8), facecolor=None)
+    plt.imshow(wc)
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+
+    plt.savefig("wordcloud.png")
+    plt.clf()
+
+    """
+    image = Image.open("wordcloud.png")
+    photo = ImageTk.PhotoImage(image)
+    
+    lab = tkinter.Label(root, image=photo)
+    lab.image = photo
+    lab.pack()
+    """
+
+
+def network(json_list: list):
+    graph = nx.Graph()
+
+    for json_info in json_list:
+        info = json.loads(json_info)
+
+        graph.add_node(info["name"])
+        graph.add_nodes_from(info["mentions"])
+        edges_list = list()
+        for mention in info["mentions"]:
+            edges_list.append((info["name"], mention))
+        graph.add_edges_from(edges_list)
+
+    plt.figure(figsize=(800/120, 800/120), dpi=120)
+
+    positions = nx.spring_layout(graph)
+    pos = {}
+    for node, coords in positions.items():
+        pos[node] = (coords[0]+0.1*(-1)*np.sign(coords[0]), coords[1]+0.1*(-1)*np.sign(coords[1]))
+
+    nx.draw_networkx(graph, pos=pos, with_labels=True, node_size=100, dpi=120, scale=2, k=100)
+    plt.axis("off")
+    plt.tight_layout(pad=0)  # pad can be changes
+    # plt.savefig("map.png")
+    plt.show()
+
+
+if __name__ == "__main__":
+    """
+    root = tkinter.Tk()
+    root.title("Twitter Scrapper")
+    root.protocol("WM_DELETE_WINDOW", close)
+
+    input_frame = tkinter.Frame(root, bg="white")
+
+    name_label = tkinter.Label(input_frame, text="Twitter Name: @", bg=input_frame["background"])
+    tweet_label = tkinter.Label(input_frame, text="Number of Tweets: ", bg=input_frame["background"])
+    depth_label = tkinter.Label(input_frame, text="Depth: ", bg=input_frame["background"])
+
+
+    name = tkinter.Entry(input_frame)
+    tweet_amount = tkinter.Entry(input_frame)
+    depth = tkinter.Entry(input_frame)
+
+    input_frame.pack()
+    name_label.grid(row=0, column=0, sticky=tkinter.E)
+    name.grid(row=0, column=1)
+
+    tweet_label.grid(row=1, column=0, sticky=tkinter.E)
+    tweet_amount.grid(row=1, column=1)
+
+    depth_label.grid(row=2, column=0, sticky=tkinter.E)
+    depth.grid(row=2, column=1)
+    tkinter.mainloop()
+    """
+    word_comments = 'Test For Hackathon Word Cloud Example 12345 Stop Words JSON Python Python Python Python JavaScript' \
+                    ' Python Python Python Python Python Python Python Python Python Python Python Python is an interpreted' \
+                    ' Created by Guido van Rossum and first released in 1991 Python design philosophy emphasizes code ' \
+                    ' readability with its notable use of significant whitespace'
+    # word_cloud_main(mentions=word_comments)
+    example = list()
+    x = '{"name": "RealDonaldTrump","mentions": ["flotus","billdeblasio","ingrahamangle","mariabartiromo","facebook"]}'
+    y = '{"name": "billdeblasio","mentions": ["flotus","ingrahamangle","mariabartiromo","facebook"]}'
+    z = '{"name": "flotus","mentions": ["memes"]}'
+
+    example.append(x)
+    example.append(y)
+    example.append(z)
+    example = ['{"name": "RealDonaldTrump", "mentions": ["flotus", "billdeblasio", "ingrahamangle", "mariabartiromo", "facebook"]}', '{"name": "flotus", "mentions": ["whitehouse", "natlparkservice", "whitehousehstry", "us_fda", "kencen"]}', '{"name": "whitehouse", "mentions": ["realdonaldtrump", "flotus", "scottmorrisonmp", "ivankatrump", "secretaryross"]}', '{"name": "natlparkservice", "mentions": ["instagram", "nationalmallnps", "georgerclarknps", "denalinps", "gatewayarchnps"]}', '{"name": "whitehousehstry", "mentions": ["lmchervinsky", "emilyaheil", "washingtonpost", "ap", "flotus"]}', '{"name": "us_fda", "mentions": ["fdacommissioner", "fdafood", "fdaoncology", "nih", "epagov"]}', '{"name": "kencen", "mentions": ["rachelfeinstein", "pattonoswalt", "reesewaters", "thesecondcity", "wellsfargo"]}', '{"name": "billdeblasio", "mentions": ["morning_joe", "msnbc", "jarrodwiggins", "podmetto", "voxdotcom"]}', '{"name": "morning_joe", "mentions": ["billdeblasio", "capehartj", "benjaminwittes", "jmeacham", "jpodhoretz"]}', '{"name": "msnbc", "mentions": ["thebeatwithari", "arimelber", "maddowblog", "joyannreid", "jacobsoboroff"]}', '{"name": "jarrodwiggins", "mentions": ["ewarren", "petebuttigieg", "jascaruthers", "billdeblasio", "podmetto"]}', '{"name": "podmetto", "mentions": ["aoc", "jarrodwiggins", "thomas_c_mia", "billdeblasio", "mountain_hugger"]}', '{"name": "voxdotcom", "mentions": ["netflix", "today_explained", "nhassenfeld", "spotify", "rameswaram"]}', '{"name": "ingrahamangle", "mentions": ["raymondarroyo", "foxnews", "sfchronicle", "realdonaldtrump", "nytimes"]}', '{"name": "raymondarroyo", "mentions": ["ingrahamangle", "dinnafacher", "pnjaban", "galatoires_no", "tonyawise13"]}', '{"name": "foxnews", "mentions": ["carleyshimkus", "foxfriendsfirst", "heatherchilders", "jackieibanezfnc", "foxbusiness"]}', '{"name": "sfchronicle", "mentions": ["20thcenturycafe", "bruce_jenkins1", "gregcosell", "actsanfrancisco", "punchlinesf"]}', '{"name": "realdonaldtrump", "mentions": ["flotus", "billdeblasio", "ingrahamangle", "mariabartiromo", "facebook"]}', '{"name": "nytimes", "mentions": ["jackhealynyt", "nytclimate", "sominisengupta", "abarnardnyt", "sangerkatz"]}', '{"name": "mariabartiromo", "mentions": ["foxnews", "morningsmaria", "foxbusiness", "whitehouse", "tulsigabbard"]}', '{"name": "foxnews", "mentions": ["carleyshimkus", "foxfriendsfirst", "heatherchilders", "jackieibanezfnc", "foxbusiness"]}', '{"name": "morningsmaria", "mentions": ["darrellissa", "gerardtbaker", "judgenap", "jonnysgoldstein", "realdonaldtrump"]}', '{"name": "foxbusiness", "mentions": ["deirdrebolton", "blackstone", "replouiegohmert", "senatemajldr", "potus"]}', '{"name": "whitehouse", "mentions": ["realdonaldtrump", "flotus", "scottmorrisonmp", "ivankatrump", "secretaryross"]}', '{"name": "tulsigabbard", "mentions": ["abc", "ranaayyub", "amazbellphoto", "shoe0nhead", "uaw"]}', '{"name": "facebook", "mentions": ["bharathkata1", "thisisthechamp", "sushant71gupta", "deejayczon", "pauljordan"]}', '{"name": "bharathkata1", "mentions": ["paytmcare", "facebook", "aadhaar_care", "uidai", "uidaihyderabad"]}', '{"name": "thisisthechamp", "mentions": ["facebook", "bitchute", "youtube", "ytcreators", "gretathunberg"]}', '{"name": "sushant71gupta", "mentions": ["socalgas", "imrankhanpti", "khanumarfa", "cslb", "facebook"]}', '{"name": "deejayczon", "mentions": ["facebook", "pesapalcare", "breezy50371370", "kenyapower_care"]}', '{"name": "pauljordan", "mentions": ["lastpasshelp"]}']
+    network(example)
+
+    example_input = '{"name": "RealDonaldTrump", "mentions": ["flotus",' \
+                    '"billdeblasio","billdeblasio","ingrahamangle","mariabartiromo",' \
+                    '"facebook","billdeblasio","billdeblasio"]}'
+    word_cloud_main(example_input)
+
