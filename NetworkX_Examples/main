@@ -2,6 +2,7 @@ import PyQt4
 import matplotlib
 #matplotlib.use('qt4agg')
 import matplotlib.pyplot as plt
+import multiprocessing
 import networkx as nx
 import json
 from wordcloud import WordCloud, STOPWORDS
@@ -25,7 +26,10 @@ def main_function():
     depth = int(request.json['the_depth'])
     # x = threading.Thread(target=request_info, args=(name, tweet_number, depth,))
     # x.start()
-    request_info(name, tweet_number, depth)
+    job = multiprocessing.Process(target=request_info, args =(name, tweet_number, depth))
+    job.start()
+
+    #request_info(name, tweet_number, depth)
     return "Successful!"
 
 
