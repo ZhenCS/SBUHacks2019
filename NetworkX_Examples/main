@@ -1,12 +1,11 @@
-import networkx as nx
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import networkx as nx
 import json
 from wordcloud import WordCloud, STOPWORDS
-import tkinter
-import numpy as np
-import http
-# import request
 import requests
+import threading
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -16,6 +15,18 @@ app = Flask(__name__)
 @app.route('/', methods=['get'])
 def intro():
     return render_template("index.html")
+
+
+@app.route('/mainfunction', methods=['POST', 'GET'])
+def main_function():
+    name = request.json['name']
+    tweet_number = int(request.json['number'])
+    depth = int(request.json['the_depth'])
+    # x = threading.Thread(target=request_info, args=(name, tweet_number, depth,))
+    # x.start()
+    request_info(name, tweet_number, depth)
+    return "Successful!"
+
 
 """
 def close():
@@ -92,12 +103,7 @@ def generate_image(mode, info):
     word_cloud_main(example_input)
 
 
-@app.route('/mainfunction', methods=['POST', 'GET'])
-def request_info():
-    name = request.json['name']
-    tweet_number = int(request.json['number'])
-    depth = int(request.json['the_depth'])
-
+def request_info(name: str, tweet_number: int, depth: int):
     if depth <= 0:
         url = "http://35.231.85.14:5000/" +name+"/"+str(tweet_number)
     else:
@@ -124,6 +130,8 @@ def request_info():
         print(type(data))
         new_data = data.decode('utf-8')
         print(new_data)
+        # x = threading.Thread(target=word_cloud_main, args=(new_data,))
+        # x.start()
         word_cloud_main(new_data)
     else:
         print("Net")
@@ -143,8 +151,9 @@ def request_info():
             idx = idx + 1
         # new_data = json.loads(new_data)
 
+        # x = threading.Thread(target=network, args=(info_list,))
+        # x.start()
         network(info_list)
-    return "Successful!"
 
 
 if __name__ == "__main__":
