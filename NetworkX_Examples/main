@@ -29,15 +29,6 @@ def word_cloud_main(ex: str):
     plt.savefig("wordcloud.png")
     plt.clf()
 
-    """
-    image = Image.open("wordcloud.png")
-    photo = ImageTk.PhotoImage(image)
-    
-    lab = tkinter.Label(root, image=photo)
-    lab.image = photo
-    lab.pack()
-    """
-
 
 def network(json_list: list):
     graph = nx.Graph()
@@ -62,43 +53,16 @@ def network(json_list: list):
     nx.draw_networkx(graph, pos=pos, with_labels=True, node_size=100, dpi=120, scale=2, k=100)
     plt.axis("off")
     plt.tight_layout(pad=0)  # pad can be changes
-    # plt.savefig("map.png")
+    plt.savefig("map.png")
     plt.show()
 
 
 if __name__ == "__main__":
-    """
-    root = tkinter.Tk()
-    root.title("Twitter Scrapper")
-    root.protocol("WM_DELETE_WINDOW", close)
-
-    input_frame = tkinter.Frame(root, bg="white")
-
-    name_label = tkinter.Label(input_frame, text="Twitter Name: @", bg=input_frame["background"])
-    tweet_label = tkinter.Label(input_frame, text="Number of Tweets: ", bg=input_frame["background"])
-    depth_label = tkinter.Label(input_frame, text="Depth: ", bg=input_frame["background"])
-
-
-    name = tkinter.Entry(input_frame)
-    tweet_amount = tkinter.Entry(input_frame)
-    depth = tkinter.Entry(input_frame)
-
-    input_frame.pack()
-    name_label.grid(row=0, column=0, sticky=tkinter.E)
-    name.grid(row=0, column=1)
-
-    tweet_label.grid(row=1, column=0, sticky=tkinter.E)
-    tweet_amount.grid(row=1, column=1)
-
-    depth_label.grid(row=2, column=0, sticky=tkinter.E)
-    depth.grid(row=2, column=1)
-    tkinter.mainloop()
-    """
     word_comments = 'Test For Hackathon Word Cloud Example 12345 Stop Words JSON Python Python Python Python JavaScript' \
                     ' Python Python Python Python Python Python Python Python Python Python Python Python is an interpreted' \
                     ' Created by Guido van Rossum and first released in 1991 Python design philosophy emphasizes code ' \
                     ' readability with its notable use of significant whitespace'
-    # word_cloud_main(mentions=word_comments)
+
     example = list()
     x = '{"name": "RealDonaldTrump","mentions": ["flotus","billdeblasio","ingrahamangle","mariabartiromo","facebook"]}'
     y = '{"name": "billdeblasio","mentions": ["flotus","ingrahamangle","mariabartiromo","facebook"]}'
