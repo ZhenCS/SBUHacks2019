@@ -1,5 +1,6 @@
+import PyQt4
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('qt4agg')
 import matplotlib.pyplot as plt
 import networkx as nx
 import json
