@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<head>
+    <title>@MeBro</title>
+    <link rel="shortcut icon" href="/images/at_sign_PNG68.png"/>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header_tabs">
+        <button onClick="cloudClick()" id="header_tabs_link_cloud" class="active">@Cloud</button>
+        <button onClick="mapClick()" id="header_tabs_link_map" class="inactive">@Map</button>
+    </div>
+
+    <div id="cloud" class="visible">
+        <div class="container_prompt">CREATE A <br> WORD CLOUD <br> OUT OF <br> MENTIONS!</div>
+        <div id="cloud_form">
+            <form id="cloud_form_content">
+                <div class="form_prompt">twitter.com/</div>
+                <input class="form_input" type="text">
+                <div class="form_prompt2">Number of tweets to process: </div>
+                <input class="form_input2" type="number" min=1 max=10>
+            </form>
+            <button class="form_submit" onClick="submit_cloud">Submit</button>
+        </div>
+    </div>
+
+    <div id="map">
+        <div class="container_prompt">CREATE A <br> MAP <br> OUT OF <br> MENTIONS!</div>
+        <div id="map_form">
+            <form id="map_form_content">
+                <div class="form_prompt">twitter.com/</div>
+                <input class="form_input" type="text">
+                <div class="form_prompt">Number of tweets to process: </div>
+                <input class="form_input" type="number" min=1 max=200>
+                <div class="form_prompt2">Depth of search: </div>
+                <input class="form_input2" type="number" min=1 max=10>
+            </form>
+            <button class="form_submit" onClick="submit_map">Submit</button>
+        </div>
+    </div>
+</body>
+
+</html>
