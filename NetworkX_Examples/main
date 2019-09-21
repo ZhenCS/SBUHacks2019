@@ -5,10 +5,17 @@ from wordcloud import WordCloud, STOPWORDS
 import tkinter
 import numpy as np
 import http
-import request
+# import request
 import requests
-import flask
+from flask import Flask
+from flask import render_template
+from flask import request
+app = Flask(__name__)
 
+
+@app.route('/', methods=['get'])
+def intro():
+    return render_template("index.html")
 
 """
 def close():
@@ -85,7 +92,12 @@ def generate_image(mode, info):
     word_cloud_main(example_input)
 
 
-def request_info(name: str, tweet_number: int, depth: int):
+@app.route('/mainfunction', methods=['POST', 'GET'])
+def request_info():
+    name = request.json['name']
+    tweet_number = int(request.json['number'])
+    depth = int(request.json['the_depth'])
+
     if depth <= 0:
         url = "http://35.231.85.14:5000/" +name+"/"+str(tweet_number)
     else:
@@ -132,7 +144,8 @@ def request_info(name: str, tweet_number: int, depth: int):
         # new_data = json.loads(new_data)
 
         network(info_list)
+    return "Successful!"
 
 
 if __name__ == "__main__":
-    request_info("realDonaldTrump", 100, 2)
+    app.run()

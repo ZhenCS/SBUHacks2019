@@ -10,7 +10,7 @@ body {
     align-items: flex-end;
 
     background-color: #A5575F;
-    background-image: url("/images/at_sign_PNG68.png");
+    background-image: url("../static/at_sign_PNG68.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 200px;
