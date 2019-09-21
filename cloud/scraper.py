@@ -40,7 +40,7 @@ def mention_cloud(user: str, tweet_count: int):
     return TwitterUser(user, parse_mentions(user, tweet_count).split(" ")).to_json()
 
 
-def map_mentions_rec(user: str, tweet_count: int, depth: int, output):
+def mention_network(user: str, tweet_count: int, depth: int, output):
     if depth == 0:
         return None
     arr = list(dict.fromkeys(parse_mentions(user, tweet_count).split(" ")))[:5]
