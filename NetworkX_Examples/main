@@ -62,25 +62,37 @@ def word_cloud_main(ex: str):
 
 def network(json_list: list):
     graph = nx.Graph()
+    colors = ["#4B296B", "#52AA5E", "#42CAFD", "#C20114", "#F00699"]
+    color_map = list()
+    names_list = list()
 
     for json_info in json_list:
         info = json_info
 
         graph.add_node(info["name"])
+        names_list.append(info["name"])
         graph.add_nodes_from(info["mentions"])
-        edges_list = list()
-        for mention in info["mentions"]:
-            edges_list.append((info["name"], mention))
-        graph.add_edges_from(edges_list)
 
+        edges_list = list()
+        #print(info["depth"])
+        #color_map.append(colors[info["depth"]])
+        for mention in info["mentions"]:
+            if mention not in names_list:
+                print(info["name"], mention, colors[info["depth"]],info["depth"])
+                color_map.append(colors[info["depth"]])
+                edges_list.append((info["name"], mention))
+
+        graph.add_edges_from(edges_list)
+    # print(graph.nodes)
+    # print(graph.nodes['0'])
     plt.figure(figsize=(800/120, 800/120), dpi=120)
 
     positions = nx.spring_layout(graph)
 
     for node, coords in positions.items():
         plt.text(coords[0], coords[1]+.005, s=str(node), horizontalalignment='center')
-
-    nx.draw_networkx(graph, pos=positions, with_labels=False, node_size=100, dpi=120, scale=2, k=100)
+    print(len(color_map), len(graph.edges))
+    nx.draw_networkx(graph, node_color='#AFDCEB', edge_color=color_map, pos=positions, with_labels=False, node_size=200, dpi=120, scale=2, k=100)
     plt.axis("off")
     plt.tight_layout(pad=0)  # pad can be changes
     plt.savefig("map.png")
@@ -130,26 +142,26 @@ def request_info(name: str, tweet_number: int, depth: int):
     """
 
     if depth <= 0:
-        print("WC")
-        data = requests.get(url).content
-        print(type(data))
+        #print("WC")
+        data = requests.get(url, timeout=60000).content
+        #print(type(data))
         new_data = data.decode('utf-8')
-        print(new_data)
+        #print(new_data)
         # x = threading.Thread(target=word_cloud_main, args=(new_data,))
         # x.start()
         word_cloud_main(new_data)
     else:
-        print("Net")
+        #print("Net")
         r = requests.get(url=url).content
         intial = r.decode("utf-8")
-        print(intial, type(intial))
+        #print(intial, type(intial))
         buf = json.loads(intial)
         print(buf, type(intial))
-        print(buf['length'], type(buf['length']))
+        #print(buf['length'], type(buf['length']))
         length = buf['length']
         idx = 0
         info_list = list()
-        print(buf['0'], type(buf['0']))
+        #print(buf['0'], type(buf['0']))
 
         while idx < length:
             info_list.append(buf[str(idx)])
