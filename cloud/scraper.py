@@ -40,13 +40,19 @@ def mention_cloud(user: str, tweet_count: int):
     return TwitterUser(user, parse_mentions(user, tweet_count).split(" ")).to_json()
 
 
-def mention_network(user: str, tweet_count: int, depth: int, output):
+def mention_network(user: str, tweet_count: int, depth: int):
+    output = mention_network_helper(user, tweet_count, depth, {})
+    output['length'] = len(output)
+    return output
+
+
+def mention_network_helper(user: str, tweet_count: int, depth: int, output):
     if depth == 0:
         return None
     arr = list(dict.fromkeys(parse_mentions(user, tweet_count).split(" ")))[:5]
     curr_user = TwitterUser(user, arr)
-    output.append(curr_user.to_json())
+    output[str(len(output))] = {"name": curr_user.name, "mentions" : curr_user.mentions}
     for mentions in arr:
-        mention_network(mentions, tweet_count, depth-1, output)
+        mention_network_helper(mentions, tweet_count, depth-1, output)
     return output
 
