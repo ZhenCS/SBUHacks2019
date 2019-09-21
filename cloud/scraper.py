@@ -8,7 +8,7 @@ class TwitterUser:
         self.mentions = mentions
 
     def to_json(self):
-        return json.dumps({"name ": self.name,
+        return json.dumps({"name": self.name,
                            "mentions": self.mentions})
 
 
