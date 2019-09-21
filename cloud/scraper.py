@@ -47,6 +47,6 @@ def mention_network(user: str, tweet_count: int, depth: int, output):
     curr_user = TwitterUser(user, arr)
     output.append(curr_user.to_json())
     for mentions in arr:
-        map_mentions_rec(mentions, tweet_count, depth-1, output)
+        mention_network(mentions, tweet_count, depth-1, output)
     return output
 
