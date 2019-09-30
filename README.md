@@ -1,6 +1,6 @@
 # SBUHacks2019
 
-# @MeBro
+# @Map
 
 Developed by Daniel Goon, Edwin Ma, Tao Lin and Zheng Lu
 
